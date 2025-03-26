@@ -19,10 +19,6 @@
 ? Engaging in an RP where you and/or your partner are not undressed during sexual interaction.
 * Lingerie
 ? Expresses an interest in the inclusion of lingerie in the sexual context of an RP, or an interest in characters wearing such.
-* Stockings
-? Expresses an interest in the inclusion of stockings in the sexual context of an RP, or an interest in characters wearing such.
-* Heels
-? Expresses an interest in the inclusion of high heeled shoes in the sexual context of an RP, or an interest in characters wearing such.
 * Leather
 ? Expresses an interest in the inclusion of leather clothing in the sexual context of an RP, or an interest in characters wearing such.
 * Latex
@@ -34,15 +30,16 @@
 
 #Groupings
 (General)
-* You and 1 male
-* You and 1 female
+* Absolutely no preference
+* You and 1 Penis
+* You and 1 Vagina
 * You and MtF trans
 * You and FtM trans
-* You and 1 male, 1 female
-* You and 2 males
-* You and 2 females
+* You and 1 Penis, 1 Vagina
+* You and 2 Peni
+* You and 2 Vagina
 * Orgy
-? multiple male and female characters
+? Since this is sex focused, it'll be focused on the parts you want involved.
 
 #General
 (Giving, Receiving)
@@ -55,7 +52,7 @@
 * Deep throat
 ? The act of penetrating the mouth of another character to the depths at which the penis or insertion enters the back of the mouth cavity and/or throat, sometimes causing a gag reflex, or being the recipient of such actions.
 * Swallowing
-? The act of orally consuming semen, either directly or indirectly from a penis.
+? The act of orally consuming juices, either directly or indirectly from a penis or vagina.
 * Facials
 ? The act of cumming directly onto one's face
 * Cunnilingus
@@ -101,6 +98,8 @@
 (Self, Partner)
 * Dildos
 ? an object shaped like an erect penis used for sexual stimulation.
+* Large Dildos
+? A beyond average shaped like an erect penis of various creatures used for sexual stimulation.
 * Plugs
 ? a sex toy of a type designed to be inserted into the rectum.
 * Vibrators
@@ -150,20 +149,10 @@
 
 #Taboo
 (General)
-* Incest
-? Engaging in an RP in which at least two characters will be related
 * Age Gap
 ? Refers to scenes in which there is a signifigant gap in the ages of characters.
-* Interracial
-? Scenes based on interracial interactions without relying on racial stereotypes.
-*Raceplay
-? Scenes based on racial stereotypes or racism, including scenes set in racist settings.
 * Bestiality
 ? Refers to a sapient character engaging in a sexual act with a non-sapient animal, or playing a non-sapient animal in an RP and being engaged by a sapient character.
-* Necrophilia
-? The act of having sex with a dead, or otherwise unconscious or inanimate, character that was once alive, or, theoretically, receiving such actions.
-* Cheating
-? Where one or both partners are being unfaithful to significant others.
 * Exhibitionism
 ? Engaging in an RP in which the setting is of a public nature; typically used in conjunction with exhibitionism and/or humiliation.
 * Voyeurism
@@ -187,7 +176,7 @@
 ? The formerly living, not currently in posession of a body
 
 #Fluids
-(General)
+(Giving, Receiving)
 * Blood
 ? Pertains to the inclusion of blood or the retrieval of blood in any form in a sexual context, or engaging in acts which will draw blood.
 * Watersports
