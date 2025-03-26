@@ -1,0 +1,381 @@
+body {
+    background-color: #000;
+    color: #fff;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.legend {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+    background-color: #111;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.category-controls {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.category-controls button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background-color 0.2s;
+}
+
+.category-controls button:hover {
+    background-color: #555;
+}
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.legend-color {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 5px;
+    border: 1px solid #555;
+}
+
+.legend-color.blank {
+    background-color: transparent;
+}
+
+.legend-color.no {
+    background-color: #ff0000; /* Red */
+}
+
+.legend-color.maybe {
+    background-color: #ff69b4; /* Pink */
+}
+
+.legend-color.neutral {
+    background-color: #ffff00; /* Yellow */
+}
+
+.legend-color.yes {
+    background-color: #00ff00; /* Green */
+}
+
+.legend-color.favorite {
+    background-color: #0000ff; /* Blue */
+}
+
+.category {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+.category-title {
+    font-size: 1.5em;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #444;
+    padding: 8px 5px 5px 5px;
+    background-color: #111;
+    border-radius: 5px 5px 0 0;
+    transition: background-color 0.2s;
+    user-select: none;
+}
+
+.category-title:hover {
+    background-color: #222;
+}
+
+.collapse-indicator {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.category-content {
+    display: grid;
+    grid-template-columns: 1fr 120px 120px;
+    width: 100%;
+}
+
+.column-headers {
+    display: contents;
+}
+
+.kink-row {
+    display: contents;
+}
+
+.column-header, .kink-name, .kink-giving, .kink-receiving {
+    padding: 12px 10px;
+    box-sizing: border-box;
+}
+
+.column-header {
+    font-weight: bold;
+    border-bottom: 2px solid #444;
+}
+
+.kink-name, .kink-giving, .kink-receiving {
+    border-bottom: 1px solid #222;
+}
+
+.column-header:first-child, .kink-name {
+    grid-column: 1;
+}
+
+.giving-header, .kink-giving {
+    grid-column: 2;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.receiving-header, .kink-receiving {
+    grid-column: 3;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.kink-name {
+    display: flex;
+    align-items: center;
+}
+
+.kink-name .info-icon {
+    margin-left: 8px;
+    cursor: pointer;
+    color: #888;
+    font-size: 0.8em;
+}
+
+.radio-button {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid #555;
+    background-color: transparent;
+    display: block;
+    box-sizing: border-box;
+}
+
+.radio-button.blank {
+    background-color: transparent;
+}
+
+.radio-button.no {
+    background-color: #ff0000; /* Red */
+}
+
+.radio-button.maybe {
+    background-color: #ff69b4; /* Pink */
+}
+
+.radio-button.neutral {
+    background-color: #ffff00; /* Yellow */
+}
+
+.radio-button.yes {
+    background-color: #00ff00; /* Green */
+}
+
+.radio-button.favorite {
+    background-color: #0000ff; /* Blue */
+}
+
+.tooltip {
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    border-radius: 5px;
+    z-index: 100;
+    max-width: 300px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.color-picker-menu {
+    background-color: #222;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.7);
+    z-index: 200;
+    overflow: hidden;
+    width: 180px;
+}
+
+.color-option {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.color-option:hover {
+    background-color: #333;
+}
+
+.color-circle {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+    border: 1px solid #555;
+}
+
+.color-option.blank .color-circle {
+    background-color: transparent;
+}
+
+.color-option.no .color-circle {
+    background-color: #ff0000;
+}
+
+.color-option.maybe .color-circle {
+    background-color: #ff69b4;
+}
+
+.color-option.neutral .color-circle {
+    background-color: #ffff00;
+}
+
+.color-option.yes .color-circle {
+    background-color: #00ff00;
+}
+
+.color-option.favorite .color-circle {
+    background-color: #0000ff;
+}
+
+#export-button {
+    display: block;
+    margin: 30px auto;
+    padding: 10px 20px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+#export-button:hover {
+    background-color: #555;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    body {
+        padding: 10px;
+    }
+    
+    .legend {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 10px;
+        padding: 15px;
+    }
+    
+    .legend-item {
+        margin: 0;
+    }
+    
+    .category-title {
+        font-size: 1.2em;
+        padding: 10px;
+    }
+    
+    .category-content {
+        display: block;
+    }
+    
+    /* Make sure visibility still works properly when not collapsed */
+    .category-content[style*="display: grid"] {
+        display: block !important;
+    }
+    
+    .column-headers {
+        display: none;
+    }
+    
+    .kink-name, .kink-giving, .kink-receiving {
+        display: block;
+        width: 100%;
+        padding: 8px 5px;
+        border-bottom: none;
+    }
+    
+    .kink-name {
+        font-weight: bold;
+        padding-top: 16px;
+        border-top: 1px solid #333;
+    }
+    
+    .kink-giving {
+        display: flex;
+        align-items: center;
+    }
+    
+    .kink-receiving {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+    }
+    
+    .kink-giving:before {
+        content: 'Giving: ';
+        margin-right: 10px;
+        min-width: 70px;
+    }
+    
+    .kink-receiving:before {
+        content: 'Receiving: ';
+        margin-right: 10px;
+        min-width: 70px;
+    }
+    
+    .tooltip {
+        left: 50% !important;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 300px;
+    }
+    
+    .radio-button {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .color-picker-menu {
+        position: fixed !important;
+        left: 50% !important;
+        transform: translateX(-50%);
+        width: 80%;
+        max-width: 250px;
+    }
+}
