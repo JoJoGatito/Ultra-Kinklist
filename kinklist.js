@@ -64,6 +64,7 @@ function parseKinklistFile(text) {
 
 function renderKinklist(categories) {
     const container = document.getElementById('kinklist-container');
+    const isMobile = window.innerWidth <= 768;
     
     categories.forEach(category => {
         const categoryDiv = document.createElement('div');
@@ -182,29 +183,55 @@ function renderKinklist(categories) {
             
             categoryContent.appendChild(kinkNameDiv);
             
+            // For mobile, create a container for option buttons
+            let optionsContainer;
+            if (isMobile) {
+                optionsContainer = document.createElement('div');
+                optionsContainer.className = 'kink-options-container';
+                categoryContent.appendChild(optionsContainer);
+            }
+            
             // Create button cells based on category type
             if (columnNames.length === 2) {
                 const givingDiv = document.createElement('div');
                 givingDiv.className = 'kink-giving';
+                givingDiv.dataset.type = columnNames[0].charAt(0); // First character of column name
                 const givingButton = createRadioGroup('giving', `${category.name}-${kink.name}`);
                 givingDiv.appendChild(givingButton);
-                categoryContent.appendChild(givingDiv);
                 
                 const receivingDiv = document.createElement('div');
                 receivingDiv.className = 'kink-receiving';
+                receivingDiv.dataset.type = columnNames[1].charAt(0); // First character of column name
                 const receivingButton = createRadioGroup('receiving', `${category.name}-${kink.name}`);
                 receivingDiv.appendChild(receivingButton);
-                categoryContent.appendChild(receivingDiv);
+                
+                if (isMobile) {
+                    // On mobile, add both options to the container
+                    optionsContainer.appendChild(givingDiv);
+                    optionsContainer.appendChild(receivingDiv);
+                } else {
+                    // On desktop, add directly to the grid
+                    categoryContent.appendChild(givingDiv);
+                    categoryContent.appendChild(receivingDiv);
+                }
             } else {
                 const generalDiv = document.createElement('div');
                 generalDiv.className = 'kink-giving';
+                generalDiv.dataset.type = columnNames[0].charAt(0); // First character of column name
                 const generalButton = createRadioGroup('general', `${category.name}-${kink.name}`);
                 generalDiv.appendChild(generalButton);
-                categoryContent.appendChild(generalDiv);
                 
-                // Empty cell for the third column
-                const emptyCell = document.createElement('div');
-                categoryContent.appendChild(emptyCell);
+                if (isMobile) {
+                    // On mobile, add to the container
+                    optionsContainer.appendChild(generalDiv);
+                } else {
+                    // On desktop, add directly to the grid
+                    categoryContent.appendChild(generalDiv);
+                    
+                    // Empty cell for the third column
+                    const emptyCell = document.createElement('div');
+                    categoryContent.appendChild(emptyCell);
+                }
             }
         });
         
@@ -445,6 +472,7 @@ function setupExportButton() {
 function setupCategoryControls() {
     const expandAllButton = document.getElementById('expand-all');
     const collapseAllButton = document.getElementById('collapse-all');
+    const isMobile = window.innerWidth <= 768;
     
     expandAllButton.addEventListener('click', () => {
         document.querySelectorAll('.category').forEach(category => {
@@ -452,11 +480,7 @@ function setupCategoryControls() {
             const indicator = category.querySelector('.collapse-indicator');
             
             // Expand this category - check if we're on mobile
-            if (window.innerWidth <= 768) {
-                content.style.display = 'block';
-            } else {
-                content.style.display = 'grid';
-            }
+            content.style.display = window.innerWidth <= 768 ? 'block' : 'grid';
             indicator.textContent = '▼';
             
             // Update localStorage
