@@ -309,8 +309,28 @@ function createRadioGroup(type, kinkId) {
         // Position the menu properly
         const rect = radioButton.getBoundingClientRect();
         menu.style.position = 'absolute';
-        menu.style.top = `${rect.bottom + window.scrollY + 5}px`;
-        menu.style.left = `${rect.left + window.scrollX - 5}px`;
+        
+        // On mobile, use fixed positioning in the center of the screen
+        if (window.innerWidth <= 768) {
+            // Calculate position to ensure menu stays within viewport
+            const viewportHeight = window.innerHeight;
+            const menuHeight = 240; // Approximate height of the menu
+            
+            // Position menu in the middle of the screen, or higher if near bottom
+            const topPosition = Math.min(
+                rect.bottom + 5,
+                viewportHeight - menuHeight - 20
+            );
+            
+            menu.style.position = 'fixed';
+            menu.style.top = `${topPosition}px`;
+            menu.style.left = '50%';
+            menu.style.transform = 'translateX(-50%)';
+        } else {
+            // Desktop positioning
+            menu.style.top = `${rect.bottom + window.scrollY + 5}px`;
+            menu.style.left = `${rect.left + window.scrollX - 5}px`;
+        }
         
         // Close menu when clicking outside
         document.addEventListener('click', function closeMenu(e) {
