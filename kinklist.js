@@ -1,4 +1,29 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Theme toggle functionality
+    const themeToggle = document.getElementById('theme-toggle');
+    const themeStylesheet = document.getElementById('theme-stylesheet');
+    
+    // Check for saved theme preference or use dark as default
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    if (savedTheme === 'light') {
+        document.body.classList.add('light-theme');
+        themeToggle.textContent = '🌙';
+    } else {
+        themeToggle.textContent = '☀️';
+    }
+    
+    themeToggle.addEventListener('click', () => {
+        if (document.body.classList.contains('light-theme')) {
+            document.body.classList.remove('light-theme');
+            localStorage.setItem('theme', 'dark');
+            themeToggle.textContent = '☀️';
+        } else {
+            document.body.classList.add('light-theme');
+            localStorage.setItem('theme', 'light');
+            themeToggle.textContent = '🌙';
+        }
+    });
+
     // Add keyboard shortcuts
     document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
@@ -25,6 +50,8 @@ document.addEventListener('DOMContentLoaded', () => {
             setupTooltips();
             setupExportButton();
             setupCategoryControls();
+            loadProgress();
+            updateProgressIndicator();
         })
         .catch(error => {
             console.error('Error loading kinklist:', error);
@@ -374,6 +401,10 @@ function showColorMenu(radioButton) {
                 
                 // Close the menu
                 menu.remove();
+                
+                // Save progress and update indicator
+                saveProgress();
+                updateProgressIndicator();
             });
             
             menu.appendChild(optionElement);
