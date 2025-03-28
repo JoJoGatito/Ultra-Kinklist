@@ -95,15 +95,28 @@ h1 {
     font-size: 1.5em;
     margin-bottom: 10px;
     border-bottom: 1px solid #444;
-    padding: 8px 5px 5px 5px;
+    padding: 12px 15px;
     background-color: #111;
     border-radius: 5px 5px 0 0;
-    transition: background-color 0.2s;
+    transition: all 0.2s ease;
     user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .category-title:hover {
     background-color: #222;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.collapse-indicator {
+    transition: transform 0.2s ease;
+}
+
+.category-title:hover .collapse-indicator {
+    transform: scale(1.2);
 }
 
 .collapse-indicator {
@@ -183,6 +196,20 @@ h1 {
     display: block;
     box-sizing: border-box;
     position: relative;
+    transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.radio-button:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 2px;
+}
+
+.radio-button:active {
+    transform: scale(0.95);
+}
+
+.radio-button:not(.blank):hover {
+    box-shadow: 0 0 10px currentColor;
 }
 
 /* Make the actual clickable area larger */
@@ -250,23 +277,37 @@ h1 {
 
 .color-picker-menu {
     background-color: #222;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.7);
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
     z-index: 200;
     overflow: hidden;
-    width: 180px;
+    width: 200px;
+    border: 1px solid #444;
+    animation: fadeIn 0.15s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(5px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .color-option {
-    padding: 8px 12px;
+    padding: 10px 15px;
     display: flex;
     align-items: center;
     cursor: pointer;
-    transition: background-color 0.2s;
+    transition: all 0.15s ease;
+    border-left: 3px solid transparent;
 }
 
 .color-option:hover {
     background-color: #333;
+    border-left: 3px solid #666;
+    transform: translateX(2px);
+}
+
+.color-option:active {
+    transform: translateX(2px) scale(0.98);
 }
 
 .color-circle {

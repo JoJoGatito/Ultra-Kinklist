@@ -263,12 +263,23 @@ function createRadioGroup(type, kinkId) {
     ];
     
     radioButton.addEventListener('click', (e) => {
-        e.stopPropagation();
-        
-        // Close any other open menus
-        document.querySelectorAll('.color-picker-menu').forEach(menu => {
-            menu.remove();
-        });
+        showColorMenu(radioButton);
+    });
+
+    radioButton.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+            e.preventDefault();
+            showColorMenu(radioButton);
+        }
+    });
+
+    // Make radio button focusable
+    radioButton.tabIndex = 0;
+function showColorMenu(radioButton) {
+    // Close any other open menus
+    document.querySelectorAll('.color-picker-menu').forEach(menu => {
+        menu.remove();
+    });
         
         // Create and show the color menu
         const menu = document.createElement('div');
