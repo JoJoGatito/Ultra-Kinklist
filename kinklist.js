@@ -28,13 +28,6 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('keydown', (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
         
-        // Ctrl+S to save
-        if (e.ctrlKey && e.key === 's') {
-            e.preventDefault();
-            saveProgress();
-            alert('Progress saved!');
-        }
-        
         // Ctrl+E to export
         if (e.ctrlKey && e.key === 'e') {
             e.preventDefault();
@@ -50,7 +43,6 @@ document.addEventListener('DOMContentLoaded', () => {
             setupTooltips();
             setupExportButton();
             setupCategoryControls();
-            loadProgress();
             updateProgressIndicator();
         })
         .catch(error => {
@@ -153,13 +145,6 @@ function renderKinklist(categories) {
             // Update indicator
             indicator.textContent = isCollapsed ? '▼' : '▶';
             
-            // Store collapsed state in localStorage
-            const categoryKey = `category_${category.name.replace(/\s+/g, '_')}_collapsed`;
-            if (isCollapsed) {
-                localStorage.removeItem(categoryKey);
-            } else {
-                localStorage.setItem(categoryKey, 'true');
-            }
         });
         
         categoryDiv.appendChild(titleDiv);
@@ -168,14 +153,8 @@ function renderKinklist(categories) {
         const categoryContent = document.createElement('div');
         categoryContent.className = 'category-content';
         
-        // Check if this category was collapsed previously
-        const categoryKey = `category_${category.name.replace(/\s+/g, '_')}_collapsed`;
-        const wasCollapsed = localStorage.getItem(categoryKey) === 'true';
-        
-        if (wasCollapsed) {
-            categoryContent.style.display = 'none';
-            indicator.textContent = '▶'; // Right arrow for collapsed
-        }
+        // Start expanded by default
+        categoryContent.style.display = window.innerWidth <= 768 ? 'block' : 'grid';
         
         categoryDiv.appendChild(categoryContent);
         
@@ -290,35 +269,6 @@ function getColumnNames(columnType) {
     return columns;
 }
 
-// Add this at the top of the file
-const STORAGE_KEY = 'kinklist_progress';
-const DEBOUNCE_DELAY = 1000;
-let saveTimeout = null;
-
-function saveProgress() {
-    const selections = {};
-    document.querySelectorAll('.radio-button').forEach(button => {
-        if (button.dataset.value !== 'blank') {
-            selections[button.dataset.kinkId + '_' + button.dataset.type] = button.dataset.value;
-        }
-    });
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
-}
-
-function loadProgress() {
-    const saved = localStorage.getItem(STORAGE_KEY);
-    if (saved) {
-        const selections = JSON.parse(saved);
-        Object.entries(selections).forEach(([key, value]) => {
-            const [kinkId, type] = key.split('_');
-            const button = document.querySelector(`.radio-button[data-kink-id="${kinkId}"][data-type="${type}"]`);
-            if (button) {
-                button.dataset.value = value;
-                button.className = 'radio-button ' + value;
-            }
-        });
-    }
-}
 
 // Call this after rendering the kinklist
 function updateProgressIndicator() {
@@ -402,8 +352,7 @@ function showColorMenu(radioButton) {
                 // Close the menu
                 menu.remove();
                 
-                // Save progress and update indicator
-                saveProgress();
+                // Update progress indicator
                 updateProgressIndicator();
             });
             
@@ -635,10 +584,6 @@ function setupCategoryControls() {
             content.style.display = window.innerWidth <= 768 ? 'block' : 'grid';
             indicator.textContent = '▼';
             
-            // Update localStorage
-            const categoryName = category.querySelector('.category-title span:last-child').textContent;
-            const categoryKey = `category_${categoryName.replace(/\s+/g, '_')}_collapsed`;
-            localStorage.removeItem(categoryKey);
         });
     });
     
@@ -651,10 +596,6 @@ function setupCategoryControls() {
             content.style.display = 'none';
             indicator.textContent = '▶';
             
-            // Update localStorage
-            const categoryName = category.querySelector('.category-title span:last-child').textContent;
-            const categoryKey = `category_${categoryName.replace(/\s+/g, '_')}_collapsed`;
-            localStorage.setItem(categoryKey, 'true');
         });
     });
 }
