@@ -352,7 +352,7 @@ function showColorMenu(radioButton) {
         });
         
         document.body.appendChild(menu);
-    });
+    }
     
     return radioButton;
 }
