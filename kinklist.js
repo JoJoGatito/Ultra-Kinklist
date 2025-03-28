@@ -1,4 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Add keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+        
+        // Ctrl+S to save
+        if (e.ctrlKey && e.key === 's') {
+            e.preventDefault();
+            saveProgress();
+            alert('Progress saved!');
+        }
+        
+        // Ctrl+E to export
+        if (e.ctrlKey && e.key === 'e') {
+            e.preventDefault();
+            document.getElementById('export-button').click();
+        }
+    });
     // Load and parse the classic.txt file
     fetch('classic.txt')
         .then(response => response.text())
@@ -244,6 +261,51 @@ function getColumnNames(columnType) {
     
     const columns = columnType.split(',').map(col => col.trim());
     return columns;
+}
+
+// Add this at the top of the file
+const STORAGE_KEY = 'kinklist_progress';
+const DEBOUNCE_DELAY = 1000;
+let saveTimeout = null;
+
+function saveProgress() {
+    const selections = {};
+    document.querySelectorAll('.radio-button').forEach(button => {
+        if (button.dataset.value !== 'blank') {
+            selections[button.dataset.kinkId + '_' + button.dataset.type] = button.dataset.value;
+        }
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(selections));
+}
+
+function loadProgress() {
+    const saved = localStorage.getItem(STORAGE_KEY);
+    if (saved) {
+        const selections = JSON.parse(saved);
+        Object.entries(selections).forEach(([key, value]) => {
+            const [kinkId, type] = key.split('_');
+            const button = document.querySelector(`.radio-button[data-kink-id="${kinkId}"][data-type="${type}"]`);
+            if (button) {
+                button.dataset.value = value;
+                button.className = 'radio-button ' + value;
+            }
+        });
+    }
+}
+
+// Call this after rendering the kinklist
+function updateProgressIndicator() {
+    const total = document.querySelectorAll('.radio-button').length;
+    const answered = document.querySelectorAll('.radio-button:not(.blank)').length;
+    const progress = Math.round((answered / total) * 100);
+    
+    let indicator = document.querySelector('.progress-indicator');
+    if (!indicator) {
+        indicator = document.createElement('div');
+        indicator.className = 'progress-indicator';
+        document.querySelector('.container').prepend(indicator);
+    }
+    indicator.textContent = `${progress}% complete (${answered}/${total})`;
 }
 
 function createRadioGroup(type, kinkId) {
@@ -526,6 +588,11 @@ function setupExportButton() {
 function setupCategoryControls() {
     const expandAllButton = document.getElementById('expand-all');
     const collapseAllButton = document.getElementById('collapse-all');
+    const selectAllButton = document.createElement('button');
+    selectAllButton.id = 'select-all';
+    selectAllButton.textContent = 'Select All';
+    selectAllButton.style.marginLeft = '10px';
+    document.querySelector('.category-controls').appendChild(selectAllButton);
     const isMobile = window.innerWidth <= 768;
     
     expandAllButton.addEventListener('click', () => {

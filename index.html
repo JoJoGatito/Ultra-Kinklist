@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ultra Kinklist</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" id="main-stylesheet">
+    <link rel="stylesheet" href="" id="theme-stylesheet" disabled>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
 </head>
 <body>
@@ -23,6 +24,9 @@
         <div class="category-controls">
             <button id="expand-all">Expand All</button>
             <button id="collapse-all">Collapse All</button>
+            <select id="category-jump" style="margin-left: 10px;">
+                <option value="">Jump to Category...</option>
+            </select>
         </div>
         
         <div id="kinklist-container"></div>
