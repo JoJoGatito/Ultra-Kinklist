@@ -387,10 +387,16 @@ function setupTooltips() {
         // Remove existing tooltip if there is one
         hideTooltip();
         
-        // Create new tooltip
+        // Create new tooltip with close button
         const tooltip = document.createElement('div');
         tooltip.className = 'tooltip';
-        tooltip.textContent = target.dataset.description;
+        tooltip.innerHTML = `
+            <button class="tooltip-close">×</button>
+            ${target.dataset.description}
+        `;
+        
+        // Add close button handler
+        tooltip.querySelector('.tooltip-close').addEventListener('click', hideTooltip);
         
         // Position tooltip near the icon
         const rect = target.getBoundingClientRect();
@@ -430,7 +436,7 @@ function setupTooltips() {
 }
 
 function setupExportButton() {
-    const exportButton = document.getElementById('export-button');
+    const exportButton = document.getElementById('export-button') || document.getElementById('mobile-export');
     exportButton.addEventListener('click', () => {
         // Check if html2canvas is available
         if (typeof html2canvas === 'undefined') {
