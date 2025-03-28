@@ -448,13 +448,6 @@ function setupTooltips() {
 
 function setupExportButton() {
     const exportButton = document.getElementById('export-button');
-    const mobileExport = document.getElementById('mobile-export');
-    
-    if (mobileExport) {
-        mobileExport.addEventListener('click', () => {
-            exportButton.click();
-        });
-    }
     exportButton.addEventListener('click', () => {
         // Check if html2canvas is available
         if (typeof html2canvas === 'undefined') {
