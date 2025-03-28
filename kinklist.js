@@ -516,23 +516,26 @@ function setupExportButton() {
                 useCORS: true,
                 scale: isMobile ? 1 : window.devicePixelRatio,
                 logging: true,
-                useCORS: true,
                 scrollX: 0,
                 scrollY: -window.scrollY,
                 windowWidth: document.documentElement.scrollWidth,
-                windowHeight: document.documentElement.scrollHeight
+                windowHeight: document.documentElement.scrollHeight,
+                ignoreElements: (element) => {
+                    // Ignore elements that might cause issues
+                    return element.classList.contains('category-controls') || 
+                           element.id === 'theme-toggle';
+                }
             };
 
+            // On mobile, we need to ensure the export container is visible
             if (isMobile) {
-                // Additional mobile-specific options
-                options.width = exportContainer.offsetWidth;
-                options.height = exportContainer.offsetHeight;
-                options.x = 0;
-                options.y = 0;
-                options.scrollX = 0;
-                options.scrollY = 0;
-                options.windowWidth = document.documentElement.scrollWidth;
-                options.windowHeight = document.documentElement.scrollHeight;
+                exportContainer.style.position = 'fixed';
+                exportContainer.style.top = '0';
+                exportContainer.style.left = '0';
+                exportContainer.style.zIndex = '9999';
+                exportContainer.style.width = '100%';
+                exportContainer.style.padding = '10px';
+                exportContainer.style.boxSizing = 'border-box';
             }
 
             const canvas = await html2canvas(exportContainer, options);
@@ -548,7 +551,13 @@ function setupExportButton() {
             exportButton.textContent = 'Export as Image';
             exportButton.disabled = false;
             
-            // Remove the temporary export container
+            // Reset export container styles and remove it
+            if (isMobile) {
+                exportContainer.style.position = '';
+                exportContainer.style.top = '';
+                exportContainer.style.left = '';
+                exportContainer.style.zIndex = '';
+            }
             document.body.removeChild(exportContainer);
         } catch (error) {
             console.error('Error generating image:', error);
@@ -568,11 +577,6 @@ function setupExportButton() {
 function setupCategoryControls() {
     const expandAllButton = document.getElementById('expand-all');
     const collapseAllButton = document.getElementById('collapse-all');
-    const selectAllButton = document.createElement('button');
-    selectAllButton.id = 'select-all';
-    selectAllButton.textContent = 'Select All';
-    selectAllButton.style.marginLeft = '10px';
-    document.querySelector('.category-controls').appendChild(selectAllButton);
     const isMobile = window.innerWidth <= 768;
     
     expandAllButton.addEventListener('click', () => {
