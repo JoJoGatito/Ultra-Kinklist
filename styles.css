@@ -365,6 +365,20 @@ h1 {
         max-width: 300px;
         margin: 20px auto;
     }
+
+    #export-container {
+        font-size: 14px;
+    }
+
+    #export-container table {
+        width: 100% !important;
+    }
+
+    #export-container th, 
+    #export-container td {
+        padding: 3px !important;
+        font-size: 12px !important;
+    }
 }
 
 /* Mobile adjustments */

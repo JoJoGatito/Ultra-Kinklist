@@ -448,7 +448,7 @@ function setupTooltips() {
 
 function setupExportButton() {
     const exportButton = document.getElementById('export-button');
-    exportButton.addEventListener('click', () => {
+    exportButton.addEventListener('click', async () => {
         // Check if html2canvas is available
         if (typeof html2canvas === 'undefined') {
             alert('Export functionality requires the html2canvas library. Please check that you have an internet connection or try a different browser.');
@@ -459,20 +459,41 @@ function setupExportButton() {
         exportButton.textContent = 'Generating image...';
         exportButton.disabled = true;
         
-        // Hide any tooltips and color pickers
-        document.querySelectorAll('.tooltip, .color-picker-menu').forEach(el => el.remove());
-        
-        // Create an export version of the content with only answered kinks
-        createExportView()
-            .then(exportContainer => {
-                // Use html2canvas to generate an image
-                return html2canvas(exportContainer, {
-                    backgroundColor: '#000',
-                    allowTaint: true,
-                    useCORS: true,
-                    scale: window.devicePixelRatio
-                });
-            })
+        try {
+            // Hide any tooltips and color pickers
+            document.querySelectorAll('.tooltip, .color-picker-menu').forEach(el => el.remove());
+            
+            // Create an export version of the content with only answered kinks
+            const exportContainer = await createExportView();
+            
+            // Mobile-specific adjustments
+            const isMobile = window.innerWidth <= 768;
+            const options = {
+                backgroundColor: '#000',
+                allowTaint: true,
+                useCORS: true,
+                scale: isMobile ? 1 : window.devicePixelRatio,
+                logging: true,
+                useCORS: true,
+                scrollX: 0,
+                scrollY: -window.scrollY,
+                windowWidth: document.documentElement.scrollWidth,
+                windowHeight: document.documentElement.scrollHeight
+            };
+
+            if (isMobile) {
+                // Additional mobile-specific options
+                options.width = exportContainer.offsetWidth;
+                options.height = exportContainer.offsetHeight;
+                options.x = 0;
+                options.y = 0;
+                options.scrollX = 0;
+                options.scrollY = 0;
+                options.windowWidth = document.documentElement.scrollWidth;
+                options.windowHeight = document.documentElement.scrollHeight;
+            }
+
+            console.log('Export options:', options);
             .then(canvas => {
                 // Convert canvas to image and download
                 const image = canvas.toDataURL('image/jpeg', 0.95);
@@ -554,8 +575,15 @@ function createExportView() {
         exportContainer.style.backgroundColor = '#000';
         exportContainer.style.color = '#fff';
         exportContainer.style.padding = '20px';
-        exportContainer.style.width = '1200px'; // Wide format
-        exportContainer.style.boxSizing = 'border-box'; // Include padding in width calculation
+        
+        // Adjust width based on device
+        if (window.innerWidth <= 768) {
+            exportContainer.style.width = `${window.innerWidth - 40}px`;
+        } else {
+            exportContainer.style.width = '1200px'; // Wide format for desktop
+        }
+        
+        exportContainer.style.boxSizing = 'border-box';
         
         // Create header with title and legend
         const header = document.createElement('div');
