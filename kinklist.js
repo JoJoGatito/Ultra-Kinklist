@@ -493,37 +493,33 @@ function setupExportButton() {
                 options.windowHeight = document.documentElement.scrollHeight;
             }
 
-            console.log('Export options:', options);
-            .then(canvas => {
-                // Convert canvas to image and download
-                const image = canvas.toDataURL('image/jpeg', 0.95);
-                const a = document.createElement('a');
-                a.href = image;
-                a.download = 'kinklist.jpg';
-                a.click();
-                
-                // Reset button
-                exportButton.textContent = 'Export as Image';
-                exportButton.disabled = false;
-                
-                // Remove the temporary export container
-                const exportContainer = document.getElementById('export-container');
-                if (exportContainer) {
-                    document.body.removeChild(exportContainer);
-                }
-            })
-            .catch(error => {
-                console.error('Error generating image:', error);
-                alert('Error generating image. This might be caused by browser security restrictions. Try using the app on a different browser or device.');
-                exportButton.textContent = 'Error - Try Again';
-                exportButton.disabled = false;
-                
-                // Remove the temporary export container if it exists
-                const exportContainer = document.getElementById('export-container');
-                if (exportContainer) {
-                    document.body.removeChild(exportContainer);
-                }
-            });
+            const canvas = await html2canvas(exportContainer, options);
+            
+            // Convert canvas to image and download
+            const image = canvas.toDataURL('image/jpeg', 0.95);
+            const a = document.createElement('a');
+            a.href = image;
+            a.download = 'kinklist.jpg';
+            a.click();
+            
+            // Reset button
+            exportButton.textContent = 'Export as Image';
+            exportButton.disabled = false;
+            
+            // Remove the temporary export container
+            document.body.removeChild(exportContainer);
+        } catch (error) {
+            console.error('Error generating image:', error);
+            alert('Error generating image. This might be caused by browser security restrictions. Try using the app on a different browser or device.');
+            exportButton.textContent = 'Error - Try Again';
+            exportButton.disabled = false;
+            
+            // Remove the temporary export container if it exists
+            const exportContainer = document.getElementById('export-container');
+            if (exportContainer) {
+                document.body.removeChild(exportContainer);
+            }
+        }
     });
 }
 
