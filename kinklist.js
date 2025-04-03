@@ -218,13 +218,57 @@ function renderKinklist(categories) {
             if (columnNames.length === 2) {
                 const givingDiv = document.createElement('div');
                 givingDiv.className = 'kink-giving';
-                givingDiv.dataset.type = columnNames[0].charAt(0); // First character of column name
+                
+                // For mobile view, use more descriptive labels
+                if (isMobile) {
+                    // For Dominant/Submissive use "dom/sub"
+                    if (columnNames[0] === "Dominant" && columnNames[1] === "Submissive") {
+                        givingDiv.dataset.type = "dom";
+                    }
+                    // For Giving/Receiving use "give/receive"
+                    else if (columnNames[0] === "Giving" && columnNames[1] === "Receiving") {
+                        givingDiv.dataset.type = "give";
+                    }
+                    // For Actor/Subject use full words
+                    else if (columnNames[0] === "Actor" && columnNames[1] === "Subject") {
+                        givingDiv.dataset.type = "Actor";
+                    }
+                    // Default fallback to full word
+                    else {
+                        givingDiv.dataset.type = columnNames[0];
+                    }
+                } else {
+                    givingDiv.dataset.type = columnNames[0].charAt(0); // First character for desktop
+                }
+                
                 const givingButton = createRadioGroup('giving', `${category.name}-${kink.name}`);
                 givingDiv.appendChild(givingButton);
                 
                 const receivingDiv = document.createElement('div');
                 receivingDiv.className = 'kink-receiving';
-                receivingDiv.dataset.type = columnNames[1].charAt(0); // First character of column name
+                
+                // For mobile view, use more descriptive labels
+                if (isMobile) {
+                    // For Dominant/Submissive use "dom/sub"
+                    if (columnNames[0] === "Dominant" && columnNames[1] === "Submissive") {
+                        receivingDiv.dataset.type = "sub";
+                    }
+                    // For Giving/Receiving use "give/receive"
+                    else if (columnNames[0] === "Giving" && columnNames[1] === "Receiving") {
+                        receivingDiv.dataset.type = "receive";
+                    }
+                    // For Actor/Subject use full words
+                    else if (columnNames[0] === "Actor" && columnNames[1] === "Subject") {
+                        receivingDiv.dataset.type = "Subject";
+                    }
+                    // Default fallback to full word
+                    else {
+                        receivingDiv.dataset.type = columnNames[1];
+                    }
+                } else {
+                    receivingDiv.dataset.type = columnNames[1].charAt(0); // First character for desktop
+                }
+                
                 const receivingButton = createRadioGroup('receiving', `${category.name}-${kink.name}`);
                 receivingDiv.appendChild(receivingButton);
                 
@@ -240,7 +284,14 @@ function renderKinklist(categories) {
             } else {
                 const generalDiv = document.createElement('div');
                 generalDiv.className = 'kink-giving';
-                generalDiv.dataset.type = columnNames[0].charAt(0); // First character of column name
+                
+                // For mobile, use the full column name
+                if (isMobile) {
+                    generalDiv.dataset.type = columnNames[0];
+                } else {
+                    generalDiv.dataset.type = columnNames[0].charAt(0); // First character for desktop
+                }
+                
                 const generalButton = createRadioGroup('general', `${category.name}-${kink.name}`);
                 generalDiv.appendChild(generalButton);
                 
