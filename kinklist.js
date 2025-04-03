@@ -565,12 +565,17 @@ function setupExportButton() {
                 backgroundColor: '#000',
                 allowTaint: true,
                 useCORS: true,
-                scale: isMobile ? 1 : window.devicePixelRatio,
-                logging: true,
+                // Higher scale factor for better quality
+                scale: isMobile ? 2 : Math.max(2, window.devicePixelRatio),
+                logging: false,
                 scrollX: 0,
                 scrollY: -window.scrollY,
                 windowWidth: document.documentElement.scrollWidth,
                 windowHeight: document.documentElement.scrollHeight,
+                // Improve quality with these settings
+                imageTimeout: 0,
+                removeContainer: false,
+                foreignObjectRendering: false, // Sometimes more reliable
                 ignoreElements: (element) => {
                     // Ignore elements that might cause issues
                     return element.classList.contains('category-controls') || 
@@ -591,11 +596,16 @@ function setupExportButton() {
 
             const canvas = await html2canvas(exportContainer, options);
             
-            // Convert canvas to image and download
-            const image = canvas.toDataURL('image/jpeg', 0.95);
+            // Convert canvas to image with higher quality
+            // Using PNG for better quality (no compression artifacts)
+            const image = canvas.toDataURL('image/png');
+            
+            // For JPEG alternative with high quality
+            // const image = canvas.toDataURL('image/jpeg', 1.0);
+            
             const a = document.createElement('a');
             a.href = image;
-            a.download = 'kinklist.jpg';
+            a.download = 'kinklist.png';
             a.click();
             
             // Reset button
@@ -665,6 +675,11 @@ function createExportView() {
         exportContainer.style.backgroundColor = '#000';
         exportContainer.style.color = '#fff';
         exportContainer.style.padding = '20px';
+        // Add text rendering improvements
+        exportContainer.style.textRendering = 'optimizeLegibility';
+        exportContainer.style.fontSmoothing = 'antialiased';
+        exportContainer.style.webkitFontSmoothing = 'antialiased';
+        exportContainer.style.mozOsxFontSmoothing = 'grayscale';
         
         // Adjust width based on device
         if (window.innerWidth <= 768) {
